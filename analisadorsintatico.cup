@@ -1,0 +1,39 @@
+import java_cup.runtime.*;
+import java.util.*;
+import java.io.*;
+
+parser code {:
+    public static void main(String[] args) throws Exception {
+        Lexer lexer = new Lexer(new InputStreamReader(System.in));
+        parser p = new parser(lexer);
+        p.parse();
+    }
+:}
+
+terminal PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
+terminal int ID;
+
+non terminal Integer E, T, F;
+
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
+
+start with E;
+
+E ::=
+    E:e PLUS T:t {: RESULT = (int) e + (int) t; :}
+        | E:e MINUS T:t {: RESULT = (int) e - (int) t; :}
+        | T:t {: RESULT = t; :}
+    EOF
+    ;
+
+T ::=
+    T:t TIMES F:f {: RESULT = (int) t * (int) f; :}
+        | T:t DIVIDE F:f {: RESULT = (int) t / (int) f; :}
+        | F:f {: RESULT = f; :}
+    ;
+
+F ::=
+    LPAREN E:e RPAREN {: RESULT = e; :}
+    | ID:i {: RESULT = i; :}
+    ;
