@@ -4,27 +4,39 @@ import java.io.*;
 
 parser code {:
     public static void main(String[] args) throws Exception {
-        Lexer lexer = new Lexer(new InputStreamReader(System.in));
-        parser p = new parser(lexer);
-        p.parse();
+        try {
+            FileReader fileReader = new FileReader(args[0]);
+            Lexer lexer = new Lexer(fileReader);
+
+            parser p = new parser(lexer);
+            p.parse();
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo de entrada: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erro durante o parsing: " + e.getMessage());
+        }
     }
 :}
 
-terminal PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
+terminal PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, END;
 terminal int ID;
 
-non terminal Integer E, T, F;
+non terminal Integer E, T, F, A;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
 
-start with E;
+start with A;
+
+A ::= 
+    E END 
+        | E END A
+    ;
 
 E ::=
     E:e PLUS T:t {: RESULT = (int) e + (int) t; :}
         | E:e MINUS T:t {: RESULT = (int) e - (int) t; :}
         | T:t {: RESULT = t; :}
-    EOF
     ;
 
 T ::=
@@ -35,5 +47,5 @@ T ::=
 
 F ::=
     LPAREN E:e RPAREN {: RESULT = e; :}
-    | ID:i {: RESULT = i; :}
+        | ID:i {: RESULT = i; :}
     ;
