@@ -6,7 +6,7 @@ import java_cup.runtime.Symbol;
 %debug
 
 Digito = [0-9]
-Int = {Digito}*
+Int = {Digito}+
 
 %%
 
@@ -18,4 +18,5 @@ Int = {Digito}*
 "-" { return new Symbol(Sym.MINUS); }
 "*" { return new Symbol(Sym.TIMES); }
 "/" { return new Symbol(Sym.DIVIDE); }
+";" { return new Symbol(Sym.END); }
 <<EOF>> { return new Symbol(Sym.EOF); }
