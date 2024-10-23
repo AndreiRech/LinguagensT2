@@ -8,7 +8,7 @@
 
 # INTRODUÇÃO
 
-Criação de 
+Junção de um Parser com um Lexer.
 
 # 🛠 PRÉ REQUISITOS
 
@@ -24,14 +24,8 @@ Para utilizar o projeto, primeiro gere o Lexer utilziando o comando:
     jflex.bat programa.flex
 ```
 
-Após isso, apenas rode o arquivo **exec.bat** clicando duas vezes no mesmo, ou, se preferir, pela linha de comando utilizando
+Após isso, passe o arquivo de entrada (**entrada.txt**) na linha de comando juntamente com o **exec.bat**.
 
 ```bash
-    .\exec.bat
-```
-
-No final, insira entradas no estilo:
-
-```bash
-    (1 + 3) * 2
+    .\exec.bat entrada.txt
 ```
